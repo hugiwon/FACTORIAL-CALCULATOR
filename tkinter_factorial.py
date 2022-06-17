@@ -1,9 +1,10 @@
 from multiprocessing.connection import answer_challenge
+from tkinter.messagebox import showerror
 from tkinter import *
 
 #창만들기
 window = Tk()
-window.geometry("260x70")
+window.geometry("270x80")
 window.resizable(width=False, height=False)
 
 """
@@ -36,32 +37,33 @@ def ent_p():
     global label3
 
 
+    try:
+        answer = ""
+        expression = ""
 
-    answer = ""
-    expression = ""
+        a = str(inputw.get())
+        a = int(a.replace(a[a.find("!")], ""))
+        sums = 1
+        count = 0
 
-    a = str(inputw.get())
-    a = int(a.replace(a[a.find("!")], ""))
-    sums = 1
-    count = 0
+        for i in range(1, a+1):
+            sums *= i
+            count += 1
+            if a-count >= 1:
+                print("{}x".format(i, sums), end="")
+                expression += "{}x".format(i, sums)
+            else:
+                print("{}=".format(i), end="")
+                expression += "{}=".format(i)
 
-    for i in range(1, a+1):
-        sums *= i
-        count += 1
-        if a-count >= 1:
-            print("{}x".format(i, sums), end="")
-            expression += "{}x".format(i, sums)
-        else:
-            print("{}=".format(i), end="")
-            expression += "{}=".format(i)
-
-    answer = sums
-    print("{}\n".format(sums))
-    print("answer : {}".format(sums))
-    print(expression, answer)
-    label3.config(text="Expression: {}{}".format(expression, answer))
-    label3.pack(side="bottom")
-
+        answer = sums
+        print("{}\n".format(sums))
+        print("answer : {}".format(sums))
+        print(expression, answer)
+        label3.config(text="Expression: {}{}".format(expression, answer))
+        label3.pack(side="bottom")
+    except:
+        showerror('ERROR', 'Something is wrong. Check your number [ x! ]', parent = window)
 
 #확인 버튼 만들기
 button1 = Button(window, text="CALCULATE")
@@ -69,9 +71,3 @@ button1.config(command = ent_p)
 button1.place(x=170, y=24)
 
 window.mainloop()
-
-
-"""
-만들어야 할 것: RESET 버튼 만들기( 지금의 오류:
-                    다른 식을 넣고 계산하면 label3가 이상하기 표현됨) ㅠㅠ
-                    """
